@@ -1,0 +1,110 @@
+{
+    "cloth": {
+        "table_cloth":{
+            "name": "table cloth",
+            "meshes": "tabletop_gym/envs/assets/objects/Table cloth.obj",
+            "texture": "tabletop_gym/envs/assets/objects/texture2.jpg"
+        },
+        "napkin_cloth": {
+            "name": "napkin cloth",
+            "meshes": "tabletop_gym/envs/assets/objects/napkin/Napkin Cloth BB.obj",
+            "texture": "tabletop_gym/envs/assets/objects/towel_texture.jpeg"
+        }
+    },
+    "cup":{
+        "coffee_cup": {
+            "meshes": "tabletop_gym/envs/assets/objects/cupa.obj",
+            "texture": null,
+            "name": "coffee cup"
+        },       
+        "water_glass": {
+            "name": "water glass",
+            "meshes":"tabletop_gym/envs/assets/objects/Water Glass BB.obj",
+            "texture":null 
+        },
+        "red_mug": {
+            "meshes": "tabletop_gym/envs/assets/train/cup/red_mug/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/cup/red_mug/meshes/texture.png",
+            "name": "red cup"
+        },
+        "white_mug": {
+            "meshes": "tabletop_gym/envs/assets/train/cup/white_mug/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/cup/white_mug/meshes/texture.png",
+            "name": "white cup"
+        },
+        "white_yellow_mug": {
+            "meshes": "tabletop_gym/envs/assets/train/cup/white_yellow_mug/meshes/model.obj",
+            "name": "white cup",
+            "texture": "tabletop_gym/envs/assets/train/cup/white_yellow_mug/meshes/texture.png"
+        }
+    },
+    "fork": {
+        "fork":{
+            "name": "fork",
+            "meshes": "tabletop_gym/envs/assets/objects/Dinner Fork BB.obj",
+            "texture": null
+        }
+    }, 
+    "knife": {
+        "knife": {
+            "name": "knife",
+            "meshes": "tabletop_gym/envs/assets/objects/Dinner Knife BB.obj",
+            "texture": null
+        }
+    }, 
+    "plate": {
+        "small_plate": {
+            "name": "plate",
+            "meshes": "tabletop_gym/envs/assets/objects/blue_plate/textured.obj", 
+            "texture": null
+        },
+        "blue_plate": {
+            "name": "blue plate",
+            "meshes": "tabletop_gym/envs/assets/train/plate/blue_plate/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/plate/blue_plate/meshes/texture.png"
+        },
+        "blue_plate_2": {
+            "name": "blue plate",
+            "meshes": "tabletop_gym/envs/assets/train/plate/blue_plate_2/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/plate/blue_plate_2/meshes/texture.png"
+        },
+        "white_plate": {
+            "name": "white plate",
+            "meshes": "tabletop_gym/envs/assets/train/plate/white_plate/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/plate/white_plate/meshes/texture.png"
+        },
+       "green_plate": {
+            "name": "green plate",
+            "meshes": "tabletop_gym/envs/assets/train/plate/green_plate/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/plate/green_plate/meshes/texture.png"
+       }
+    },
+    "square plate": {
+        "white_square_plate": {
+            "name": "silver square plate",
+            "meshes": "tabletop_gym/envs/assets/train/plate/white_square_plate/meshes/model.obj",
+            "texture": "tabletop_gym/envs/assets/train/plate/white_square_plate/meshes/texture.png"
+        }
+    },
+    "spoon": {
+        "spoon": {
+            "name": "spoon",
+            "meshes": "tabletop_gym/envs/assets/objects/Soup Spoon BB.obj",
+            "texture": null
+        }
+    }, 
+    "table": {
+        "table": {
+            "name": "table",
+            "meshes": "tabletop_gym/envs/assets/objects/table.obj",
+            "texture": "tabletop_gym/envs/assets/objects/RV_TEXTURE_WOOD_VOL_02/001_RV_TEXTURE_WOOD.jpg"
+        }
+    }, 
+    "wine glass": {
+        "wine_glass": {
+            "name": "wine glass",
+            "meshes": "tabletop_gym/envs/assets/objects/Wine Glass BB (1).obj",
+            "texture": null
+        }
+    } 
+}

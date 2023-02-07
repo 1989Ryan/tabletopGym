@@ -1,0 +1,17 @@
+{  "Dinner Plate BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/train/plate/blue_plate_2/meshes/model.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 1.0,
+    "texture": "tabletop_gym/envs/assets/train/plate/blue_plate_2/meshes/texture.png",
+    "colli_obj": "tabletop_gym/envs/assets/train/plate/blue_plate_2/meshes/model.obj",
+    "kwargs": {},
+    "category": "rigid"
+  }
+}

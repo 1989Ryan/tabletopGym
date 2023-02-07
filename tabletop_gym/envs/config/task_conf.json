@@ -1,0 +1,36 @@
+{
+    "plate": [
+        "Bread Plate BB",
+        "Charger BB",
+        "Dinner Plate BB"
+    ],
+    "knife": [
+        "Dinner Knife BB",
+        "Salad Knife BB",
+        "Butter Knife BB"
+    ],
+    "fork": [
+        "Dinner Fork BB",
+        "Salad Fork BB",
+        "Dessert Fork BB"
+    ],
+    "spoon": [
+        "Dessert Spoon BB",
+        "Soup Spoon BB"
+    ],
+    "cup": [
+        "Water Glass BB"
+    ],
+    "cloth": [
+        "Napkin Cloth BB"
+    ],
+    "coffee": [
+        "Coffee Cup BB",
+        "Coffee Plate BB"         
+    ],
+    "wine glass": [
+        "Wine Glass BB",
+        "Wine Glass BB (2)",
+        "Wine Glass BB (1)"
+    ]
+}

@@ -1,0 +1,8 @@
+newmtl Cotton
+map_Kd T_Cotton_AO.tga
+map_Pm T_Cotton_Metallic.tga
+bump T_Cotton_Normal.tga
+disp T_Cotton_Height.tga
+Kd 0.8301887 0.7531238 0.5991456
+d 1
+

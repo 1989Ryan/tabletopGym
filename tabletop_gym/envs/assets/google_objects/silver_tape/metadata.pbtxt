@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Shurtape_Gaffers_Tape_Silver_2_x_60_yd"
+description: "Shurtape Gaffers Tape, Silver, 2\" x 60 yd"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Shurtape"
+}
+annotations {
+  key: "gtin"
+  value: "00021200227820"
+}
+annotations {
+  key: "sku"
+  value: "00021200227820"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

@@ -1,0 +1,232 @@
+{
+  "Table": {
+    "baseMass": 0,
+    "fileName": "tabletop_gym/envs/assets/objects/table.obj",
+    "shapeType": 5,
+    "rgbaColor": null,
+    "basePosition": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "baseOrientation": [
+      0.5,
+      0.4999999999999999,
+      0.5,
+      0.5000000000000001
+    ],
+    "texture": "tabletop_gym/envs/assets/objects/Table_BaseColor.tga",
+    "scale_factor": 0.013,
+    "colli_obj": null,
+    "useFixedBase": 1,
+    "category": "fixed"
+  },
+  "Table Cloth Sides": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Table cloth.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 1.3,
+    "texture": "tabletop_gym/envs/assets/objects/texture.jpeg",
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Wine Glass BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Wine Glass BB (1).obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 0.7,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Wine Glass BB (2)": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Wine Glass BB (1).obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 0.7,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Wine Glass BB (1)": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Wine Glass BB (1).obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 0.7,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Water Glass BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Water Glass BB.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 0.7,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Dinner Knife BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Dinner Knife BB.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.27450980392156865,
+      0.27450980392156865,
+      0.28627450980392155,
+      1
+    ],
+    "scale_factor": 1.6,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  
+  "Dessert Spoon BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Soup Spoon BB.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.27450980392156865,
+      0.27450980392156865,
+      0.28627450980392155,
+      1
+    ],
+    "scale_factor": 1.0,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Dinner Fork BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/Dinner Fork BB.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.27450980392156865,
+      0.27450980392156865,
+      0.28627450980392155,
+      1
+    ],
+    "scale_factor": 1.4,
+    "texture": null,
+    "colli_obj": null,
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Bread Plate BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/blue_plate/textured.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.611764705882353,
+      0.48627450980392156,
+      0.2196078431372549,
+      1
+    ],
+    "scale_factor": 0.8,
+    "texture": null,
+    "colli_obj": "tabletop_gym/envs/assets/objects/blue_plate/collision.obj",
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Dinner Plate BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/blue_plate/textured.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 1.2,
+    "texture": null,
+    "colli_obj": "tabletop_gym/envs/assets/objects/blue_plate/collision.obj",
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Napkin Cloth BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/napkin/Napkin Cloth BB.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 1.0,
+    "texture": "tabletop_gym/envs/assets/objects/cotton_napkin.jpg",
+    "colli_obj": "tabletop_gym/envs/assets/objects/napkin/Napkin Cloth BB.obj",
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Coffee Cup BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/cupa.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      0.7411764705882353,
+      0.7647058823529411,
+      0.7803921568627451,
+      1
+    ],
+    "scale_factor": 1.2,
+    "texture": null,
+    "colli_obj": "tabletop_gym/envs/assets/objects/cupa.obj",
+    "kwargs": {},
+    "category": "rigid"
+  },
+  "Coffee Plate BB": {
+    "baseMass": 1.0,
+    "fileName": "tabletop_gym/envs/assets/objects/blue_plate/textured.obj",
+    "shapeType": 5,
+    "rgbaColor": [
+      -0.08,
+      -0.08,
+      1.08
+    ],
+    "scale_factor": 0.8,
+    "texture": null,
+    "colli_obj": "tabletop_gym/envs/assets/objects/blue_plate/collision.obj",
+    "kwargs": {},
+    "category": "rigid"
+  }
+}

@@ -1,0 +1,6 @@
+newmtl coffee_1
+map_Kd coffee 1.png
+bump coffee 1 n.png
+Kd 0.7941176 0.7941176 0.7941176
+d 1
+
