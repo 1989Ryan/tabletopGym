@@ -54,7 +54,6 @@ RUN pip3 install \
     scipy\
     pybullet\
     imageio\
-
     transform3d
 RUN sudo pip3 install nvisii 
 RUN python3 -m pip install --upgrade Pillow
