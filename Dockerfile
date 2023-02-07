@@ -36,6 +36,7 @@ RUN cd $WORKDIR
 # install pip3
 RUN apt-get -y install python3-pip
 RUN sudo python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade Pillow
 
 # install pytorch
 
@@ -54,6 +55,7 @@ RUN pip3 install \
     scipy\
     pybullet\
     imageio\
+
     transform3d
 RUN sudo pip3 install nvisii 
 RUN python3 -m pip install --upgrade Pillow
