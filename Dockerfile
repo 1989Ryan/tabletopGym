@@ -36,7 +36,6 @@ RUN cd $WORKDIR
 # install pip3
 RUN apt-get -y install python3-pip
 RUN sudo python3 -m pip install --upgrade pip
-RUN python3 -m pip install --upgrade Pillow
 
 # install pytorch
 
@@ -60,7 +59,6 @@ RUN pip3 install \
 RUN sudo pip3 install nvisii 
 RUN python3 -m pip install --upgrade Pillow
 RUN pip3 install -vU https://github.com/CastXML/pygccxml/archive/develop.zip pyplusplus
-
 
 # change ownership of everything to our user
 RUN mkdir /home/$USER_NAME/tabletopGym
