@@ -1,3 +1,4 @@
 [submodule "tabletop_gym/envs/ompl"]
 	path = tabletop_gym/envs/ompl
 	url = https://github.com/ompl/ompl.git
+
