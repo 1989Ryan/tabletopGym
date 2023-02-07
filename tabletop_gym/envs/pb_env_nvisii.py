@@ -5,7 +5,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 # print("current_dir=" + currentdir)
 os.sys.path.insert(0, currentdir)
 import random
-from planning_ompl import PbOMPL, PbOMPLRobot
+# from planning_ompl import PbOMPL, PbOMPLRobot
 import pybullet as pb
 import pybullet_data
 import numpy as np
@@ -19,14 +19,12 @@ from utils import DEFAULT_STATE, DEFAULT_STEP, DEFAULT_TABLE, DEFAULT_CONF_PATH,
     read_action_csv, read_json, get_csv_path, transform, dump_json, check_orn_enable,\
     get_json_path_from_scene, get_segmentation_mask_object_and_link_index, RealSenseD415, camera_coord, OBJ_CONFIG,\
     material_weights, color_weights, colors_name_train, colors_name_test_1, colors_name_test_2,\
-    colors, render_camera_coord
+    colors, render_camera_coord, getQuaternionFromMatrix
 import math, time
 from pybullet_utils.bullet_client import BulletClient
 
-from pybullet_rendering import RenderingPlugin
 
 from PIL import Image
-from pybullet_rendering.render.pyrender import PyrRenderer, PyrViewer
 from timeit import default_timer as timer
 import copy
 import imageio
@@ -517,14 +515,14 @@ class Tabletop_Sim:
             self.client.resetJointState(self.robot_id, self.joints[i], self.homej[i])
         self.ee.release()
         
-        if self.planner is None:
-            self.ompl_robot = PbOMPLRobot(self.client, self.robot_id)
-            self.joint_bounds = self.ompl_robot.joint_bounds
-            self.planner = PbOMPL(self.client, self.ompl_robot)
-            self.ll = self.ompl_robot.ll
-            self.ul = self.ompl_robot.ul
-            self.jr = self.ompl_robot.jr
-        self.planner.obstacles.clear()
+        # if self.planner is None:
+        #     self.ompl_robot = PbOMPLRobot(self.client, self.robot_id)
+        #     self.joint_bounds = self.ompl_robot.joint_bounds
+        #     self.planner = PbOMPL(self.client, self.ompl_robot)
+        #     self.ll = self.ompl_robot.ll
+        #     self.ul = self.ompl_robot.ul
+        #     self.jr = self.ompl_robot.jr
+        # self.planner.obstacles.clear()
         self.ids_pybullet_and_nvisii_names = []
         self.id_transfer = {}
         self.id_transfer_2 = {}
@@ -1285,7 +1283,9 @@ class Tabletop_Sim:
         return self.client.getBasePositionAndOrientation(id)
 
     def reset_obj_pose(self, id, nvisii_id, basePosition, baseOrientationAngle):
-        baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
+        # baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
+        name = self.id2name(id-3)
+        _, baseOrientationQuat = transform(name=name, conf = [0, 0, baseOrientationAngle], mesh_name=self.obj_mesh_name[name])
         pos, orn = self.client.getBasePositionAndOrientation(id)
         _, orn_new = self.client.multiplyTransforms(
             basePosition, orn, basePosition, baseOrientationQuat,
