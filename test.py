@@ -63,7 +63,9 @@ yes = sim.load_object(
     material = 'cloth',
     texture=True
 )
-print(yes)
+# output whether there is no collision. if False, the object
+# will not be loaded
+print(yes) 
 
 name = 'cup1'
 yes = sim.load_object(
