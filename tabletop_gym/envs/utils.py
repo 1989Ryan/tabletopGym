@@ -129,9 +129,9 @@ def pixel_from_coord(coord):
     return int(pixel[0]), int(pixel[1])
 
 # default
-DEFAULT_STATE = 372
-DEFAULT_TABLE = 302
-DEFAULT_STEP = 0
+DEFAULT_STATE = 14
+DEFAULT_TABLE = 407
+DEFAULT_STEP = 10
 
 # robot path
 FRANKA_URDF = 'tabletop_gym/envs/assets/franka_description/robots/panda_arm_hand.urdf'
@@ -506,14 +506,15 @@ def transform(name, conf, mesh_name):
 #     pos = pos.reshape(1,-1).tolist()[0] + [TABLE_HEIGHT]
 #     return pos, orn
 
-def inv_transform(name, pos, orn):
+def inv_transform(name, pos, orn, mesh_name):
     if not isinstance(pos, list):
         pos = list(pos)
     pos = pos[:-1]
     pos = np.matrix(pos).reshape(-1, 1)
     position = np.linalg.inv(np.matrix(TRANS_DICT['A']))*(pos - np.matrix(TRANS_DICT['b']))
     matrix = getMatrixFromQuaternion(orn)
-    matrix = np.linalg.inv(np.matrix(ROTATION_DICT[name])) * matrix
+    if mesh_name in MESH_OBJ_LIST:
+        matrix = np.linalg.inv(np.matrix(ROTATION_DICT[name])) * matrix
     euler = getEulerFromMatrix(matrix)
     euler = euler[-1] / np.pi * 180
     return position, euler

@@ -1,9 +1,9 @@
 from json import dump
 import os, inspect
-from utils import HEIGHT, LIGHT_DIRECTION, OBJ_CONFIG_10, OBJ_CONFIG_10_A, OBJ_CONFIG_4, WIDTH, OBJ_CONFIG_10_B
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-# print("current_dir=" + currentdir)
 os.sys.path.insert(0, currentdir)
+from utils import HEIGHT, LIGHT_DIRECTION, OBJ_CONFIG_10, OBJ_CONFIG_10_A, OBJ_CONFIG_4, WIDTH, OBJ_CONFIG_10_B
+# print("current_dir=" + currentdir)
 import random
 # from planning_ompl import PbOMPL, PbOMPLRobot
 import pybullet as pb
@@ -19,7 +19,7 @@ from utils import DEFAULT_STATE, DEFAULT_STEP, DEFAULT_TABLE, DEFAULT_CONF_PATH,
     read_action_csv, read_json, get_csv_path, transform, dump_json, check_orn_enable,\
     get_json_path_from_scene, get_segmentation_mask_object_and_link_index, RealSenseD415, camera_coord, OBJ_CONFIG,\
     material_weights, color_weights, colors_name_train, colors_name_test_1, colors_name_test_2,\
-    colors, render_camera_coord, getQuaternionFromMatrix
+    colors, render_camera_coord, getQuaternionFromMatrix, inv_transform
 import math, time
 from pybullet_utils.bullet_client import BulletClient
 
@@ -38,30 +38,33 @@ class Tabletop_Sim:
     config file for different scenarios.
     '''
     def __init__(self,
-                from_bullet=True,
+                from_bullet=False,
                 table_id=DEFAULT_TABLE,
                 state_id=DEFAULT_STATE,
                 step_id=DEFAULT_STEP,
-                mode='train',
+                mode='test',
                 unseen=False,
                 time_step=1./240.,
                 use_gui=False,
                 width=WIDTH,
                 height=HEIGHT,
                 save_imgs = False,
-                obj_number=12,
+                obj_number=11,
                 record_video=False,
                 record_cfg = None,
+                indivisual_loading=False,
                 ):
         '''
         config::scene configurations file path
         '''
         # TODO: loads all the materials and obj files in the beginning
         self.texture_name = {}
+        self.indivisual_loading = indivisual_loading
         self.obj_list_json = None
         self.mesh_type = {}
         self.mentioned_objects = []
         self.mentioned_objects_ref = []
+        self.grid = np.zeros((32, 32))
         nvisii.initialize(headless=True, lazy_updates=True)
         nvisii.configure_denoiser(use_albedo_guide=True, use_normal_guide=True, use_kernel_prediction=True)
         self.load_materials()
@@ -534,6 +537,7 @@ class Tabletop_Sim:
         '''
         reset the envs
         '''
+        self.grid = np.zeros((32, 32))
         self.client.resetSimulation()
         self.client.setTimeStep(self._time_step)
         self.client.setGravity(0, 0, -9.8)
@@ -560,34 +564,35 @@ class Tabletop_Sim:
         self.obj_ids = {'fixed': [], 'rigid': [], 'deformable': []}
         self._obj_args = read_json(ENV_CONFIG)
         self.obj_names = {}
-        if self.obj_number ==4:
-            r = random.choice([3, 4, 5])
-        elif self.obj_number == 10:
-            r = random.choice([7, 8, 9, 10])
-        elif self.obj_number is not None:
-            r = random.choice([7, 8, 9, 10])
-        else:
-            r = random.choice([5, 6, 7])
-        if self.human_annotate:
-            r = r - len(self.mentioned_objects)
-            tmp_list = copy.deepcopy(self.objects_lists)
-            object_selected = random.sample(
-                list(set(tmp_list.keys()) - set(self.mentioned_objects)),
-                k = r 
-            )
-            object_selected = object_selected + self.mentioned_objects
-        else:
-            object_selected = random.sample(
-                list(set(self.objects_lists.keys())), 
-                k = r 
-            )
-        if self.obj_list_json is None:
-            for ele in object_selected:
-                self._obj_args[ele] = copy.deepcopy(self.objects_lists[ele])
-        else:
-            for ele in self.obj_list_json:
-                if ele in self.objects_lists:
+        if not self.indivisual_loading:
+            if self.obj_number ==4:
+                r = random.choice([3, 4, 5])
+            elif self.obj_number == 10:
+                r = random.choice([7, 8, 9, 10])
+            elif self.obj_number is not None:
+                r = random.choice([7, 8, 9, 10])
+            else:
+                r = random.choice([5, 6, 7])
+            if self.human_annotate:
+                r = r - len(self.mentioned_objects)
+                tmp_list = copy.deepcopy(self.objects_lists)
+                object_selected = random.sample(
+                    list(set(tmp_list.keys()) - set(self.mentioned_objects)),
+                    k = r 
+                )
+                object_selected = object_selected + self.mentioned_objects
+            else:
+                object_selected = random.sample(
+                    list(set(self.objects_lists.keys())), 
+                    k = r 
+                )
+            if self.obj_list_json is None:
+                for ele in object_selected:
                     self._obj_args[ele] = copy.deepcopy(self.objects_lists[ele])
+            else:
+                for ele in self.obj_list_json:
+                    if ele in self.objects_lists:
+                        self._obj_args[ele] = copy.deepcopy(self.objects_lists[ele])
        # print(list(self._obj_args.keys()))
         # print(self._obj_args)
         # Lets add a sun light
@@ -931,6 +936,129 @@ class Tabletop_Sim:
             "nvisii_id": name,
         })
         return multiBodyId, args, object_name 
+
+    def load_object(self, name, mesh_name, baseMass, position, angle, rgb, size,
+                    scale_factor=0.013, material=None, texture=False):
+        '''
+        load object to the physical world
+        '''
+        if np.any(self.grid[position[0]:position[0]+size[1], 
+                position[1]: position[1]+size[0]]):
+            return False
+        self.grid[position[0]:position[0]+size[1], 
+                position[1]: position[1]+size[0]] = 1
+        _, initorn = transform(name, self._configs[name], mesh_name)
+        baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, angle/180 * np.pi])
+        matrix_orn = np.matrix(self.client.getMatrixFromQuaternion(initorn)).reshape(3,3)
+        matrix_orn_2 = np.matrix(self.client.getMatrixFromQuaternion(baseOrientationQuat)).reshape(3,3)
+        baseOrientation = getQuaternionFromMatrix(matrix_orn_2 * matrix_orn)
+        xyz = [(position[1] + size[0])/40 -0.4, 
+                (position[0] + size[1])/40 - 0.4]
+        basePosition = [xyz[0], xyz[1], 1.15]
+        pos = basePosition
+        rot = baseOrientation
+        scale = scale_factor
+        mesh = nvisii.mesh.get(mesh_name)
+        mesh_type = self.mesh_type[mesh_name] 
+        if mesh_type in ["fork", "knife", "spoon"]:
+            basePosition[2] += 0.02
+            pos[2] += 0.02
+        vertices = mesh.get_vertices()
+        hsv = nvisii.texture.get(f"hsv_{mesh_name}") 
+        tex = nvisii.texture.get(mesh_name) 
+        if hsv is None and tex is not None:
+            hsv = nvisii.texture.create_hsv(f"hsv_{mesh_name}", tex, 
+                    hue = 0, saturation = 1.0, value = 1.0, mix = 1.0)
+
+        collisionShapeId = self.client.createCollisionShape(
+                    pb.GEOM_MESH,
+                    vertices = vertices,
+                    meshScale=[scale_factor, scale_factor, scale_factor])
+
+        multiBodyId = self.client.createMultiBody(
+                    baseMass=baseMass,
+                    baseCollisionShapeIndex=collisionShapeId, 
+                    basePosition=basePosition,
+                    baseOrientation=baseOrientation) 
+        
+        name = f"object_{multiBodyId}" 
+        object_nvisii = nvisii.entity.get(name)
+        if object_nvisii is None:
+            object_nvisii = nvisii.entity.create(
+                name=name,
+                mesh=mesh,
+                transform = nvisii.transform.get(name) \
+                    if nvisii.transform.get(name) is not None \
+                    else nvisii.transform.create(name),
+                material = nvisii.material.get(name) \
+                    if nvisii.material.get(name) is not None \
+                    else nvisii.material.create(name),
+            )
+        else:
+            object_nvisii.clear_mesh()
+            object_nvisii.set_mesh(mesh)
+        
+        mat = nvisii.material.get(name)
+
+        # if mesh_name not in ["table", "table_cloth", "napkin_cloth"]:
+        #     random_num = random.uniform(0, 1)
+        # else:
+        #     random_num = 0
+        if tex is not None and texture: 
+            # if load the texture, then record the name from predefined file
+            mat.clear_base_color_texture()
+            mat.clear_metallic_texture()
+            mat.clear_transmission_texture()
+            mat.clear_roughness_texture()
+            mat.clear_sheen_texture()
+            mat.clear_ior_texture()
+            mat.set_base_color_texture(hsv)
+            if material == 'wood':
+                mat.set_transmission(0.0)  # should 0 or 1      
+                mat.set_roughness(0.75) # default is 1 set_clearcoat_roughness(clearcoatRoughness) 
+                mat.set_metallic(0)
+                mat.set_roughness_texture(tex)
+            elif material == 'cloth':
+                mat.set_transmission(0.0)  # should 0 or 1      
+                mat.set_roughness(1.0) # default is 1 set_clearcoat_roughness(clearcoatRoughness) 
+                mat.set_sheen_texture(tex)
+            else:
+                mat.set_roughness(.5)
+                mat.set_metallic_texture(tex)
+        else:
+
+            # This is a simple logic for more natural random materials, e.g.,  
+            # mirror or glass like objects
+            if material == 'plastic' :
+                mat.set_transmission(0)  # should 0 or 1  
+                if mesh_type in ["plate", "square plate"] :
+                    mat.set_metallic(0.1)  # should 0 or 1      
+                    mat.set_roughness(0.1) # default is 1  
+                else:
+                    mat.set_metallic(0)  # should 0 or 1      
+                    mat.set_roughness(0.5) # default is 1  
+            elif material == 'metallic':
+                mat.set_metallic(1)  # should 0 or 1      
+                mat.set_transmission(0)  # should 0 or 1      
+                mat.set_roughness(0) # default is 1 
+            
+            mat.clear_base_color_texture()
+            mat.clear_metallic_texture()
+            mat.clear_transmission_texture()
+            mat.clear_ior_texture()
+            mat.set_base_color([rgb[0]/255, rgb[1]/255, rgb[2]/255])
+
+        object_nvisii.get_transform().set_position(pos)
+        object_quat = nvisii.normalize(nvisii.quat(rot[0],rot[1],rot[2],rot[3]))
+        object_nvisii.get_transform().set_rotation(object_quat)
+        object_nvisii.get_transform().set_scale((scale, scale, scale))
+        nvisii_id = object_nvisii.get_id()
+        self.ids_pybullet_and_nvisii_names.append(
+        {
+            "pybullet_id": multiBodyId, 
+            "nvisii_id": name,
+        })
+        return True
 
     def _load_world_from_config(self):
         '''
@@ -1283,23 +1411,21 @@ class Tabletop_Sim:
         return self.client.getBasePositionAndOrientation(id)
 
     def reset_obj_pose(self, id, nvisii_id, basePosition, baseOrientationAngle):
-        # baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
-        name = self.id2name(id-3)
-        _, baseOrientationQuat = transform(name=name, conf = [0, 0, baseOrientationAngle], mesh_name=self.obj_mesh_name[name])
-        pos, orn = self.client.getBasePositionAndOrientation(id)
-        _, orn_new = self.client.multiplyTransforms(
-            basePosition, orn, basePosition, baseOrientationQuat,
-        )
+        baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
+        _, orn = self.client.getBasePositionAndOrientation(id)
+        matrix_orn = np.matrix(self.client.getMatrixFromQuaternion(orn)).reshape(3,3)
+        matrix_orn_2 = np.matrix(self.client.getMatrixFromQuaternion(baseOrientationQuat)).reshape(3,3)
+        new_orn = getQuaternionFromMatrix(matrix_orn_2 * matrix_orn)
         self.client.resetBasePositionAndOrientation(
             bodyUniqueId=id, 
             posObj=basePosition, 
-            ornObj=orn_new)
+            ornObj=new_orn)
         # get the nvisii entity for that object
         obj_entity = nvisii.entity.get(nvisii_id)
         obj_entity.get_transform().set_position(basePosition)
 
         # nvisii quat expects w as the first argument
-        obj_entity.get_transform().set_rotation(orn_new)
+        obj_entity.get_transform().set_rotation(new_orn)
 
     #########################################################
     # Task completion info
@@ -1443,8 +1569,8 @@ class Tabletop_Sim:
         self.gui_writer.close()
 
     def __del__(self):
-        del self.client
         nvisii.deinitialize()
+        # del self.client
 
     ###########################################
     # PDDLStream used functions

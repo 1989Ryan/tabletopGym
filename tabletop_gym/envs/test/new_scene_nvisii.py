@@ -26,8 +26,9 @@ ids = random.choice(sim.ids_pybullet_and_nvisii_names)
 while ids['pybullet_id'] in [3, 4]:
     ids = random.choice(sim.ids_pybullet_and_nvisii_names)
 
-sim.reset_obj_pose(ids['pybullet_id'], ids['nvisii_id'], (0, 0, 1.2,), 30)
-sim._dummy_run()
+sim.reset_obj_pose(ids['pybullet_id'], ids['nvisii_id'], (0, 0, 1.2,), 40)
+
+# sim._dummy_run()
 sim.get_observation_nvisii("./exps/2/")
 # print('reseting')
 # sim.reset_with_param(14, 407, 7, 'test', obj_number=11)
