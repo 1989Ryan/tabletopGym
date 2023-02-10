@@ -1041,6 +1041,10 @@ class Tabletop_Sim:
                 mat.set_metallic(1)  # should 0 or 1      
                 mat.set_transmission(0)  # should 0 or 1      
                 mat.set_roughness(0) # default is 1 
+            elif material == 'cloth':
+                mat.set_transmission(0.0)  # should 0 or 1      
+                mat.set_roughness(1.0) # default is 1 set_clearcoat_roughness(clearcoatRoughness) 
+                mat.set_sheen_texture(tex)
             
             mat.clear_base_color_texture()
             mat.clear_metallic_texture()
