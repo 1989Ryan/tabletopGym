@@ -15,5 +15,7 @@ python3 docker_run.py
 ## Run demo
 
 ```bash
-python3 tabletop_gym/envs/test/new_scene_nvisii.py
+python3 test.py
 ```
+
+see the output images in ``exp/1`` and ``exp/2``. 
