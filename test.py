@@ -1,5 +1,11 @@
 from tabletop_gym.envs.pb_env_nvisii import Tabletop_Sim
 import tabletop_gym.envs.object as obj_dict
+import os
+
+episode = 0
+base_path = f"./exps/{episode}"
+os.makedirs(base_path, exist_ok = True)
+obs_counter = 0
 
 object_types = [
     'cup', 'kinfe', 'spoon', 'fork', 'plate', 'napkin'
@@ -50,26 +56,36 @@ sim = Tabletop_Sim(
     indivisual_loading=True,
 )
 
-name = 'napkin'
-yes = sim.load_object(
-    name = obj_dict.filename[name],
-    mesh_name = obj_dict.type[name],
-    baseMass = 1,
-    position = (0, 0),
-    angle = 0,
-    size = obj_dict.default_size[name],
-    rgb= colors['sliver'],
-    scale_factor= obj_dict.default_scale_factor[name],
-    material = 'cloth',
-    texture=True
-)
-# output whether there is no collision. if False, the object
-# will not be loaded
-print(yes) 
+sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+obs_counter += 1
+
+# name = 'napkin'
+
+# yes = sim.load_object(
+#     type_name = obj_dict.filename[name],
+#     mesh_name = obj_dict.type[name],
+#     baseMass = 1,
+#     position = (0, 0),
+#     angle = 0,
+#     size = obj_dict.default_size[name],
+#     rgb= colors['sliver'],
+#     scale_factor= obj_dict.default_scale_factor[name],
+#     material = 'cloth',
+#     texture=True
+# )
+# # output whether there is no collision. if False, the object
+# # will not be loaded
+# print(yes) 
+# sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+# obs_counter += 1
+
+
 
 name = 'cup1'
+object_name = "mycup"
 yes = sim.load_object(
-    name = obj_dict.filename[name],
+    name = object_name,
+    type_name = obj_dict.filename[name],
     mesh_name = obj_dict.type[name],
     baseMass = 1,
     position = (20, 20),
@@ -81,61 +97,81 @@ yes = sim.load_object(
     texture=True
 )
 print(yes)
-name = 'cup1'
-yes = sim.load_object(
-    name = obj_dict.filename[name],
-    mesh_name = obj_dict.type[name],
-    baseMass = 1,
-    position = (20, 20),
-    angle = 0,
-    size = obj_dict.default_size[name],
-    rgb=(140, 140, 140,),
-    scale_factor= obj_dict.default_scale_factor[name],
-    material = None,
-    texture=True
-)
-print(yes)
-name = 'cup1'
-yes = sim.load_object(
-    name = obj_dict.filename[name],
-    mesh_name = obj_dict.type[name],
-    baseMass = 1,
-    position = (32, 32),
-    size = obj_dict.default_size[name],
-    angle = 0,
-    rgb=(140, 140, 140,),
-    scale_factor= obj_dict.default_scale_factor[name],
-    material = 'metallic',
-    texture=True
-)
-print(yes)
-sim.get_observation_nvisii("./exps/1/")
-sim.reset()
+sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+obs_counter += 1
 
-name = 'cup5'
-sim.load_object(
-    name = obj_dict.filename[name],
-    mesh_name = obj_dict.type[name],
-    baseMass = 1,
-    position = (20, 20),
-    angle = 0,
-    size = obj_dict.default_size[name],
-    rgb=colors['red'],
-    scale_factor= obj_dict.default_scale_factor[name],
-    material = 'metallic',
-    texture=False
-)
-name = 'plate2'
-sim.load_object(
-    name = obj_dict.filename[name],
-    mesh_name = obj_dict.type[name],
-    baseMass = 1,
-    position = (30, 20),
-    size = obj_dict.default_size[name],
-    angle = 0,
-    rgb=None,
-    scale_factor= obj_dict.default_scale_factor[name],
-    material = None,
-    texture=True
-)
-sim.get_observation_nvisii("./exps/2/")
+sim.reset_obj_pose(name=object_name, 
+                size=obj_dict.default_size[name], 
+                position=(10, 10), 
+                baseOrientationAngle=0)
+sim._dummy_run()
+sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+
+# name = 'cup1'
+# yes = sim.load_object(
+#     type_name = obj_dict.filename[name],
+#     mesh_name = obj_dict.type[name],
+#     baseMass = 1,
+#     position = (20, 20),
+#     angle = 0,
+#     size = obj_dict.default_size[name],
+#     rgb=(140, 140, 140,),
+#     scale_factor= obj_dict.default_scale_factor[name],
+#     material = None,
+#     texture=True
+# )
+# print(yes)
+# sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+# obs_counter += 1
+
+# name = 'cup1'
+# yes = sim.load_object(
+#     type_name = obj_dict.filename[name],
+#     mesh_name = obj_dict.type[name],
+#     baseMass = 1,
+#     position = (32, 32),
+#     size = obj_dict.default_size[name],
+#     angle = 0,
+#     rgb=(140, 140, 140,),
+#     scale_factor= obj_dict.default_scale_factor[name],
+#     material = 'metallic',
+#     texture=True
+# )
+# print(yes)
+# # sim.get_observation_nvisii("./exps/1.png")
+# sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+# obs_counter += 1
+# # sim.reset()
+
+# name = 'cup5'
+# sim.load_object(
+#     type_name = obj_dict.filename[name],
+#     mesh_name = obj_dict.type[name],
+#     baseMass = 1,
+#     position = (20, 20),
+#     angle = 0,
+#     size = obj_dict.default_size[name],
+#     rgb=colors['red'],
+#     scale_factor= obj_dict.default_scale_factor[name],
+#     material = 'metallic',
+#     texture=False
+# )
+# sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+# obs_counter += 1
+
+# name = 'plate2'
+# sim.load_object(
+#     type_name = obj_dict.filename[name],
+#     mesh_name = obj_dict.type[name],
+#     baseMass = 1,
+#     position = (30, 20),
+#     size = obj_dict.default_size[name],
+#     angle = 0,
+#     rgb=None,
+#     scale_factor= obj_dict.default_scale_factor[name],
+#     material = None,
+#     texture=True
+# )
+# sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
+# obs_counter += 1
+# # sim.get_observation_nvisii("./exps/2.png")

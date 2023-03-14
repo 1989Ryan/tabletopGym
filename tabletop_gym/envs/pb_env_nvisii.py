@@ -65,6 +65,7 @@ class Tabletop_Sim:
         self.mentioned_objects = []
         self.mentioned_objects_ref = []
         self.grid = np.zeros((32, 32))
+        self.name_id_dict = {}
         nvisii.initialize(headless=True, lazy_updates=True)
         nvisii.configure_denoiser(use_albedo_guide=True, use_normal_guide=True, use_kernel_prediction=True)
         self.load_materials()
@@ -531,7 +532,7 @@ class Tabletop_Sim:
         self.id_transfer_2 = {}
         self._load_world_from_config()
         self._dummy_run()
-        self.nv_objects = self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.')
+        # self.nv_objects = self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.')
 
     def reset(self):
         '''
@@ -543,7 +544,8 @@ class Tabletop_Sim:
         self.client.setGravity(0, 0, -9.8)
         nvisii.entity.clear_all()
         self.reset_nvisii_camera()
-
+        self.name_id_dict = {}
+        self.obj_position = {}
         # Change the dome light intensity
         nvisii.set_dome_light_intensity(1.0)
 
@@ -701,9 +703,13 @@ class Tabletop_Sim:
         else:
             return True
     
-    def _dummy_run(self):
-        for _ in range(300):
-            self.client.stepSimulation()
+    def _dummy_run(self, step=None):
+        if step is None:
+            for _ in range(300):
+                self.client.stepSimulation()
+        else:
+            for _ in range(step):
+                self.client.stepSimulation()
     
     def run(self):
         self.client.stepSimulation()
@@ -753,7 +759,8 @@ class Tabletop_Sim:
             basePosition[2] += 0.04
             baseOrientation = pb.getQuaternionFromEuler([math.pi/2., 0, -math.pi/6.])
         elif "Table Cloth Sides" == ele:
-            basePosition[2] -= 0.02
+            # basePosition[2] -= 0.02
+            return None, None, None
         else:
             basePosition[2] += 0.02
         self._obj_args[ele]['basePosition'] = basePosition
@@ -937,8 +944,8 @@ class Tabletop_Sim:
         })
         return multiBodyId, args, object_name 
 
-    def load_object(self, name, mesh_name, baseMass, position, angle, rgb, size,
-                    scale_factor=0.013, material=None, texture=False):
+    def load_object(self, type_name, mesh_name, baseMass, position, angle, rgb, size,
+                    name = None, scale_factor=0.013, material=None, texture=False):
         '''
         load object to the physical world
         '''
@@ -947,7 +954,12 @@ class Tabletop_Sim:
             return False
         self.grid[position[0]:position[0]+size[1], 
                 position[1]: position[1]+size[0]] = 1
-        _, initorn = transform(name, self._configs[name], mesh_name)
+        if name is not None:
+            self.obj_position.update({
+                name: position
+            })
+        my_unique_name = name
+        _, initorn = transform(type_name, self._configs[type_name], mesh_name)
         baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, angle/180 * np.pi])
         matrix_orn = np.matrix(self.client.getMatrixFromQuaternion(initorn)).reshape(3,3)
         matrix_orn_2 = np.matrix(self.client.getMatrixFromQuaternion(baseOrientationQuat)).reshape(3,3)
@@ -1062,6 +1074,11 @@ class Tabletop_Sim:
             "pybullet_id": multiBodyId, 
             "nvisii_id": name,
         })
+        if my_unique_name is not None:
+            self.name_id_dict[my_unique_name]= {
+                    "pybullet_id": multiBodyId, 
+                    "nvisii_id": name,
+                }
         return True
 
     def _load_world_from_config(self):
@@ -1080,6 +1097,8 @@ class Tabletop_Sim:
             obj_id, _, mesh_name = self._load_object(ele,
                 **self._obj_args[ele]
             )
+            if obj_id is None:
+                continue
             self.obj_ids[cate].append(obj_id - 3)
             self.obj_names[ele] = obj_id - 3
             if ele in self.mentioned_objects:
@@ -1350,7 +1369,7 @@ class Tabletop_Sim:
 
             # nvisii quat expects w as the first argument
             obj_entity.get_transform().set_rotation(rot)
-        self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.', self.nv_objects)
+        # self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.', self.nv_objects)
         nvisii.set_camera_entity(self.camera_nvisii_list[0])
         if filename is None:
             filename = 'video/'
@@ -1391,7 +1410,7 @@ class Tabletop_Sim:
             width=640, 
             height=640, 
             samples_per_pixel=64,
-            file_path=filename + 'rgb.png'
+            file_path=filename
         ) 
         mask = nvisii.render_data(
             width=640,
@@ -1414,7 +1433,22 @@ class Tabletop_Sim:
     def get_obj_pose(self, id):
         return self.client.getBasePositionAndOrientation(id)
 
-    def reset_obj_pose(self, id, nvisii_id, basePosition, baseOrientationAngle):
+    def reset_obj_pose(self, name, position, size, baseOrientationAngle):
+        # print(self.name_id_dict)
+        id, nvisii_id = (
+            self.name_id_dict[name]["pybullet_id"],
+            self.name_id_dict[name]["nvisii_id"])
+        if np.any(self.grid[position[0]:position[0]+size[1], 
+            position[1]: position[1]+size[0]]):
+            return False
+        self.grid[position[0]:position[0]+size[1], 
+            position[1]: position[1]+size[0]] = 1
+        pre_position = self.obj_position[name]
+        xyz = [(position[1] + size[0])/40 -0.4, 
+                (position[0] + size[1])/40 - 0.4]
+        basePosition = [xyz[0], xyz[1], 1.15]
+        self.grid[pre_position[0]:pre_position[0]+size[1],
+            pre_position[1]: pre_position[1]+size[0]] = 0
         baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
         _, orn = self.client.getBasePositionAndOrientation(id)
         matrix_orn = np.matrix(self.client.getMatrixFromQuaternion(orn)).reshape(3,3)
