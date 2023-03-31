@@ -12,10 +12,17 @@ python3 docker_build.py
 python3 docker_run.py
 ```
 
+## Download ycb dataset
+
+```bash
+mkdir ycb
+python2 download_ycb.py
+```
+
 ## Run demo
 
 ```bash
 python3 test.py
 ```
 
-see the output images in ``exp/1`` and ``exp/2``. 
+see the output images in ``exp/0``. 
