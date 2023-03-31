@@ -401,6 +401,7 @@ class Tabletop_Sim:
                     mesh_path = object_conf[ele][obj]["meshes"]
                     texture_path = object_conf[ele][obj]["texture"]
                     self.texture_name[obj] = object_conf[ele][obj]["name"]
+                    print("loading {}".format(object_conf[ele][obj]["name"]))
                     self.mesh_type[obj] = ele
                     nvisii.mesh.create_from_file(obj, mesh_path)
                     if texture_path is not None:
@@ -949,11 +950,9 @@ class Tabletop_Sim:
         '''
         load object to the physical world
         '''
-        if np.any(self.grid[position[0]:position[0]+size[1], 
-                position[1]: position[1]+size[0]]):
-            return False
-        self.grid[position[0]:position[0]+size[1], 
-                position[1]: position[1]+size[0]] = 1
+        
+        # self.grid[position[0]:position[0]+size[1], 
+        #         position[1]: position[1]+size[0]] = 1
         if name is not None:
             self.obj_position.update({
                 name: position
@@ -967,8 +966,6 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         basePosition = [xyz[0], xyz[1], 1.15]
-        print(basePosition)
-        print(baseOrientation)
         pos = basePosition
         rot = baseOrientation
         scale = scale_factor
@@ -1037,8 +1034,9 @@ class Tabletop_Sim:
                 mat.set_roughness(1.0) # default is 1 set_clearcoat_roughness(clearcoatRoughness) 
                 mat.set_sheen_texture(tex)
             else:
-                mat.set_roughness(.5)
-                mat.set_metallic_texture(tex)
+                mat.set_transmission(0.0)  # should 0 or 1      
+                mat.set_roughness(1.0)
+                mat.set_sheen_texture(tex)
         else:
 
             # This is a simple logic for more natural random materials, e.g.,  
@@ -1081,7 +1079,11 @@ class Tabletop_Sim:
                     "pybullet_id": multiBodyId, 
                     "nvisii_id": name,
                 }
-        return True
+        # if np.any(self.grid[position[0]:position[0]+size[1], 
+        #         position[1]: position[1]+size[0]]):
+        #     return False
+        # else:
+        # return True
 
     def _load_world_from_config(self):
         '''
@@ -1440,11 +1442,11 @@ class Tabletop_Sim:
         id, nvisii_id = (
             self.name_id_dict[name]["pybullet_id"],
             self.name_id_dict[name]["nvisii_id"])
-        if np.any(self.grid[position[0]:position[0]+size[1], 
-            position[1]: position[1]+size[0]]):
-            return False
-        self.grid[position[0]:position[0]+size[1], 
-            position[1]: position[1]+size[0]] = 1
+        # if np.any(self.grid[position[0]:position[0]+size[1], 
+        #     position[1]: position[1]+size[0]]):
+        #     return False
+        # self.grid[position[0]:position[0]+size[1], 
+        #     position[1]: position[1]+size[0]] = 1
         pre_position = self.obj_position[name]
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]

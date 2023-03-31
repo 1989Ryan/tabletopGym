@@ -24,8 +24,84 @@ object_lists = [
     'plate2', 
     'plate3', 
     'plate4', 
-    'napkin', 
-    'sugerbox'
+    "042_adjustable_wrench",
+    "070-b_colored_wood_blocks",
+    "031_spoon",
+    "038_padlock",
+    "055_baseball",
+    "029_plate",
+    "030_fork",
+    "073-e_lego_duplo",
+    "013_apple",
+    "058_golf_ball",
+    "032_knife",
+    "022_windex_bottle",
+    "008_pudding_box",
+    "002_master_chef_can",
+    "061_foam_brick",
+    "007_tuna_fish_can",
+    "073-c_lego_duplo",
+    "065-f_cups",
+    "063-a_marbles",
+    "065-h_cups",
+    "019_pitcher_base",
+    "006_mustard_bottle",
+    "073-b_lego_duplo",
+    "073-f_lego_duplo",
+    "050_medium_clamp",
+    "073-d_lego_duplo",
+    "056_tennis_ball",
+    "062_dice",
+    "017_orange",
+    "077_rubiks_cube",
+    "010_potted_meat_can",
+    "057_racquetball",
+    "014_lemon",
+    "026_sponge",
+    "009_gelatin_box",
+    "065-a_cups",
+    "051_large_clamp",
+    "063-b_marbles",
+    "053_mini_soccer_ball",
+    "024_bowl",
+    "016_pear",
+    "065-b_cups",
+    "018_plum",
+    "035_power_drill",
+    "012_strawberry",
+    "037_scissors",
+    "025_mug",
+    "072-d_toy_airplane",
+    "015_peach",
+    "059_chain",
+    "065-e_cups",
+    "065-i_cups",
+    "065-c_cups",
+    "073-g_lego_duplo",
+    "004_sugar_box",
+    "052_extra_large_clamp",
+    "072-b_toy_airplane",
+    "021_bleach_cleanser",
+    "011_banana",
+    "071_nine_hole_peg_test",
+    "065-j_cups",
+    "065-g_cups",
+    "072-e_toy_airplane",
+    "073-a_lego_duplo",
+    "072-a_toy_airplane",
+    "044_flat_screwdriver",
+    "070-a_colored_wood_blocks",
+    "043_phillips_screwdriver",
+    "054_softball",
+    "072-c_toy_airplane",
+    "028_skillet_lid",
+    "033_spatula",
+    "036_wood_block",
+    "003_cracker_box",
+    "048_hammer",
+    "065-d_cups",
+    "040_large_marker",
+    "005_tomato_soup_can"
 ]
 
 colors = {
@@ -82,9 +158,9 @@ obs_counter += 1
 
 
 
-name = 'crackerbox'
+name = '011_banana'
 object_name = "mycup"
-yes = sim.load_object(
+sim.load_object(
     name = object_name,
     type_name = obj_dict.filename[name],
     mesh_name = obj_dict.type[name],
@@ -97,7 +173,6 @@ yes = sim.load_object(
     material = None,
     texture=True
 )
-print(yes)
 sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
 obs_counter += 1
 
