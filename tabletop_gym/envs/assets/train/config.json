@@ -106,5 +106,34 @@
             "meshes": "tabletop_gym/envs/assets/objects/Wine Glass BB (1).obj",
             "texture": null
         }
-    } 
+    },
+    "box" : {
+        "sugerbox" : {
+            "name" : "suger box",
+            "meshes" : "ycb/004_sugar_box/google_64k/textured.obj",
+            "texture": "ycb/004_sugar_box/google_64k/texture_map.png"
+        },
+        "crackerbox" :{
+            "name" : "cracker box",
+            "meshes" : "ycb/003_cracker_box/google_64k/textured.obj",
+            "texture": "ycb/003_cracker_box/google_64k/texture_map.png"
+        }
+    },
+    "fruit" : {
+        "apple" :{
+            "name" : "apple",
+            "meshes" : "ycb/013_apple/google_64k/textured.obj",
+            "texture": "ycb/013_apple/google_64k/texture_map.png"
+        },
+        "banana" :{
+            "name" : "banana",
+            "meshes" : "ycb/011_banana/google_64k/textured.obj",
+            "texture": "ycb/011_banana/google_64k/texture_map.png"
+        },
+        "strawberry" :{
+            "name" : "strawberry",
+            "meshes" : "ycb/012_strawberry/google_64k/textured.obj",
+            "texture": "ycb/012_strawberry/google_64k/texture_map.png"
+        }
+    }
 }

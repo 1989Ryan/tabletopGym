@@ -967,6 +967,8 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         basePosition = [xyz[0], xyz[1], 1.15]
+        print(basePosition)
+        print(baseOrientation)
         pos = basePosition
         rot = baseOrientation
         scale = scale_factor

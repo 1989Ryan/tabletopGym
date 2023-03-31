@@ -12,6 +12,8 @@ filename = {
     'plate3' :"Dinner Plate BB",
     'plate4' :"Coffee Plate BB",
     'napkin' :"Napkin Cloth BB",
+    'sugerbox': "Wine Glass BB",
+    'crackerbox': "Wine Glass BB",
 }
 type = {
     'cup1' :"wine_glass",
@@ -27,6 +29,8 @@ type = {
     'plate3' :"white_plate",
     'plate4' :"white_square_plate",
     'napkin' :"napkin_cloth",
+    'sugerbox': "sugerbox",
+    'crackerbox': "crackerbox",
 }
 
 texture_color = {
@@ -43,6 +47,8 @@ texture_color = {
     'plate3' :"white",
     'plate4' :"silver",
     'napkin' : None,
+    'sugerbox': None,
+    'crackerbox' : None,
 }
 
 default_scale_factor = {
@@ -59,6 +65,8 @@ default_scale_factor = {
     'plate3' : 0.7,
     'plate4' : 0.8,
     'napkin' : 0.8,
+    'sugerbox' : 1.0,
+    'crackerbox' : 1.0,
 }
 
 default_size = {
@@ -75,4 +83,6 @@ default_size = {
     'plate3' : [4, 4],
     'plate4' : [4, 4],
     'napkin' : [4, 2],
+    'sugerbox': [4, 2],
+    'crackerbox' : [4, 2],
 }

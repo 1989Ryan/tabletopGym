@@ -420,7 +420,7 @@ def read_json(filepath):
 
 ROTATION_DICT = read_json(CURRENT_DIR + '/config/Rotation.json')
 TRANS_DICT = read_json(CURRENT_DIR + '/config/Trans.json')
-DEFAULT_CONF_PATH = CURRENT_DIR + '/config/efault.csv'
+DEFAULT_CONF_PATH = CURRENT_DIR + '/config/default.csv'
 
 def dump_json(dict_data, filepath):
     with open(filepath, 'w') as fp:

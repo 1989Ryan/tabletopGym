@@ -25,6 +25,7 @@ object_lists = [
     'plate3', 
     'plate4', 
     'napkin', 
+    'sugerbox'
 ]
 
 colors = {
@@ -81,14 +82,14 @@ obs_counter += 1
 
 
 
-name = 'cup1'
+name = 'crackerbox'
 object_name = "mycup"
 yes = sim.load_object(
     name = object_name,
     type_name = obj_dict.filename[name],
     mesh_name = obj_dict.type[name],
     baseMass = 1,
-    position = (20, 20),
+    position = (0, 20),
     angle = 0,
     size = obj_dict.default_size[name],
     rgb=colors['sliver'],
