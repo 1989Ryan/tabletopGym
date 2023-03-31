@@ -128,3 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 # tabletop_gym/envs/data/
+data
+exps
+ycb
+write_ycb.py
