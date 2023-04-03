@@ -68,7 +68,8 @@ class Tabletop_Sim:
         self.name_id_dict = {}
         nvisii.initialize(headless=True, lazy_updates=True)
         nvisii.configure_denoiser(use_albedo_guide=True, use_normal_guide=True, use_kernel_prediction=True)
-        self.load_materials()
+        if not self.indivisual_loading:
+            self.load_materials()
         nvisii.enable_denoiser()
         if obj_number is not None:
             self.human_annotate = False
