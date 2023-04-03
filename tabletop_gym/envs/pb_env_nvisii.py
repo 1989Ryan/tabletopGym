@@ -965,7 +965,10 @@ class Tabletop_Sim:
         baseOrientation = getQuaternionFromMatrix(matrix_orn_2 * matrix_orn)
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
-        basePosition = [xyz[0], xyz[1], 1.15]
+        if len(position == 3):
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.3]
+        else: 
+            basePosition = [xyz[0], xyz[1], 1.15]
         pos = basePosition
         rot = baseOrientation
         scale = scale_factor
@@ -1450,7 +1453,11 @@ class Tabletop_Sim:
         pre_position = self.obj_position[name]
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
-        basePosition = [xyz[0], xyz[1], 1.15]
+        if len(position) == 3:
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.3]
+        else:
+            basePosition = [xyz[0], xyz[1], 1.15]
+
         self.grid[pre_position[0]:pre_position[0]+size[1],
             pre_position[1]: pre_position[1]+size[0]] = 0
         baseOrientationQuat = pb.getQuaternionFromEuler([0, 0, baseOrientationAngle/180 * np.pi])
