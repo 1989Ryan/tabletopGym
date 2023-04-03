@@ -535,7 +535,7 @@ class Tabletop_Sim:
         self.ids_pybullet_and_nvisii_names = []
         self.id_transfer = {}
         self.id_transfer_2 = {}
-        self._load_world_from_config()
+        # self._load_world_from_config()
         self._dummy_run()
         # self.nv_objects = self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.')
 
