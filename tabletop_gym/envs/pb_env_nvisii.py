@@ -966,7 +966,7 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         if len(position == 3):
-            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.3]
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.1]
         else: 
             basePosition = [xyz[0], xyz[1], 1.15]
         pos = basePosition
@@ -1454,7 +1454,7 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         if len(position) == 3:
-            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.3]
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.1]
         else:
             basePosition = [xyz[0], xyz[1], 1.15]
 
