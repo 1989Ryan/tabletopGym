@@ -397,6 +397,16 @@ class Tabletop_Sim:
         object_conf = read_json(OBJECT_OBJ_MAT_CONF)
         if self.indivisual_loading:
             self.object_conf = object_conf
+            for obj in object_conf["table"]:
+                ele = "table"
+                mesh_path = object_conf[ele][obj]["meshes"]
+                texture_path = object_conf[ele][obj]["texture"]
+                self.texture_name[obj] = object_conf[ele][obj]["name"]
+                print("loading {}".format(object_conf[ele][obj]["name"]))
+                self.mesh_type[obj] = ele
+                nvisii.mesh.create_from_file(obj, mesh_path)
+                if texture_path is not None:
+                    nvisii.texture.create_from_file(obj, texture_path)           
         else:
             for ele in object_conf:
                 if object_conf[ele] is not None:
@@ -534,7 +544,7 @@ class Tabletop_Sim:
         self.ids_pybullet_and_nvisii_names = []
         self.id_transfer = {}
         self.id_transfer_2 = {}
-        # self._load_world_from_config()
+        self._load_world_from_config()
         self._dummy_run()
         # self.nv_objects = self.update_visual_objects([self.robot_id, self.ee.body, self.ee.base], '.')
 
@@ -1111,7 +1121,6 @@ class Tabletop_Sim:
         '''
         load all the objects to the physical engine according to the json config file
         '''
-         
         for ele in self._obj_args:
             cate = self._obj_args[ele].pop('category')
             # if ele == 'Table Cloth Sides':

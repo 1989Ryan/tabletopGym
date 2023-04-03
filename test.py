@@ -173,6 +173,22 @@ sim.load_object(
     material = None,
     texture=True
 )
+name = '011_banana'
+object_name = "mybanana"
+sim.load_object(
+    name = object_name,
+    type_name = obj_dict.filename[name],
+    mesh_name = obj_dict.type[name],
+    baseMass = 1,
+    position = (10, 20),
+    angle = 0,
+    size = obj_dict.default_size[name],
+    rgb=colors['sliver'],
+    scale_factor= obj_dict.default_scale_factor[name],
+    material = None,
+    texture=True
+)
+sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
 sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
 obs_counter += 1
 
