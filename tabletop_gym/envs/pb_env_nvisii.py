@@ -965,10 +965,13 @@ class Tabletop_Sim:
                         texture_path = self.object_conf[ele][obj]["texture"]
                         self.texture_name[obj] = self.object_conf[ele][obj]["name"]
                         print("loading {}".format(self.object_conf[ele][obj]["name"]))
-                        self.mesh_type[obj] = ele
-                        nvisii.mesh.create_from_file(obj, mesh_path)
-                        if texture_path is not None:
-                            nvisii.texture.create_from_file(obj, texture_path)
+                        if obj in self.mesh_type.keys():
+                            pass
+                        else:
+                            self.mesh_type[obj] = ele 
+                            nvisii.mesh.create_from_file(obj, mesh_path)
+                            if texture_path is not None:
+                                nvisii.texture.create_from_file(obj, texture_path)
         if name is not None:
             self.obj_position.update({
                 name: position
