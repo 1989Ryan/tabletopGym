@@ -68,8 +68,7 @@ class Tabletop_Sim:
         self.name_id_dict = {}
         nvisii.initialize(headless=True, lazy_updates=True)
         nvisii.configure_denoiser(use_albedo_guide=True, use_normal_guide=True, use_kernel_prediction=True)
-        if not self.indivisual_loading:
-            self.load_materials()
+        self.load_materials()
         nvisii.enable_denoiser()
         if obj_number is not None:
             self.human_annotate = False
@@ -396,20 +395,20 @@ class Tabletop_Sim:
 
     def load_materials(self):
         object_conf = read_json(OBJECT_OBJ_MAT_CONF)
-        if not self.indivisual_loading:
+        if self.indivisual_loading:
             self.object_conf = object_conf
-            return
-        for ele in object_conf:
-            if object_conf[ele] is not None:
-                for obj in object_conf[ele]:
-                    mesh_path = object_conf[ele][obj]["meshes"]
-                    texture_path = object_conf[ele][obj]["texture"]
-                    self.texture_name[obj] = object_conf[ele][obj]["name"]
-                    print("loading {}".format(object_conf[ele][obj]["name"]))
-                    self.mesh_type[obj] = ele
-                    nvisii.mesh.create_from_file(obj, mesh_path)
-                    if texture_path is not None:
-                        nvisii.texture.create_from_file(obj, texture_path)
+        else:
+            for ele in object_conf:
+                if object_conf[ele] is not None:
+                    for obj in object_conf[ele]:
+                        mesh_path = object_conf[ele][obj]["meshes"]
+                        texture_path = object_conf[ele][obj]["texture"]
+                        self.texture_name[obj] = object_conf[ele][obj]["name"]
+                        print("loading {}".format(object_conf[ele][obj]["name"]))
+                        self.mesh_type[obj] = ele
+                        nvisii.mesh.create_from_file(obj, mesh_path)
+                        if texture_path is not None:
+                            nvisii.texture.create_from_file(obj, texture_path)
     
     @property
     def is_static(self):
@@ -982,7 +981,7 @@ class Tabletop_Sim:
         baseOrientation = getQuaternionFromMatrix(matrix_orn_2 * matrix_orn)
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
-        if len(position == 3):
+        if len(position)== 3:
             basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.1]
         else: 
             basePosition = [xyz[0], xyz[1], 1.15]
