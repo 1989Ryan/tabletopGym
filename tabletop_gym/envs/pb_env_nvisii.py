@@ -959,7 +959,7 @@ class Tabletop_Sim:
         return multiBodyId, args, object_name 
 
     def load_object(self, type_name, mesh_name, baseMass, position, angle, rgb, size,
-                    name = None, scale_factor=0.013, material=None, texture=False):
+                    name = None, scale_factor=0.013, material=None, texture=False, h_scale=0.1):
         '''
         load object to the physical world
         '''
@@ -995,7 +995,7 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         if len(position)== 3:
-            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.1]
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*h_scale]
         else: 
             basePosition = [xyz[0], xyz[1], 1.15]
         pos = basePosition
@@ -1468,7 +1468,7 @@ class Tabletop_Sim:
     def get_obj_pose(self, id):
         return self.client.getBasePositionAndOrientation(id)
 
-    def reset_obj_pose(self, name, position, size, baseOrientationAngle):
+    def reset_obj_pose(self, name, position, size, baseOrientationAngle, h_scale=0.1):
         # print(self.name_id_dict)
         id, nvisii_id = (
             self.name_id_dict[name]["pybullet_id"],
@@ -1482,7 +1482,7 @@ class Tabletop_Sim:
         xyz = [(position[1] + size[0])/40 -0.4, 
                 (position[0] + size[1])/40 - 0.4]
         if len(position) == 3:
-            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*0.1]
+            basePosition = [xyz[0], xyz[1], 1.15 + position[2]*h_scale]
         else:
             basePosition = [xyz[0], xyz[1], 1.15]
 

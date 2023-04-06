@@ -194,8 +194,9 @@ obs_counter += 1
 
 sim.reset_obj_pose(name=object_name, 
                 size=obj_dict.default_size[name], 
-                position=(10, 10), 
-                baseOrientationAngle=0)
+                position=(10, 10, 1), 
+                baseOrientationAngle=0,
+                h_scale=0.1)
 sim._dummy_run()
 sim.get_observation_nvisii(f"{base_path}/{obs_counter}.png")
 
